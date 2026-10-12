@@ -202,15 +202,14 @@ class Editor extends React.Component {
       })
   }
 
+  // Pass the promise (not the blob) so Safari still sees the click that started the copy
   copyImage = () =>
-    this.getCarbonImage({ format: 'blob' })
-      .then(blob =>
-        navigator.clipboard.write([
-          new window.ClipboardItem({
-            [blob.type]: blob,
-          }),
-        ])
-      )
+    navigator.clipboard
+      .write([
+        new window.ClipboardItem({
+          'image/png': this.getCarbonImage({ format: 'blob' }),
+        }),
+      ])
       .catch(console.error)
 
   updateSetting = (key, value) => {
